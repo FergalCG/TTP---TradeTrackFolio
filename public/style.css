@@ -1,0 +1,33 @@
+html, body, #app {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+input {
+    border: 1px solid black;
+}
+
+#auth-form-container {
+    width: 50%;
+    height: 50%;
+}
+
+#navbar {
+    display: flex;
+    height: 15%;
+    border-bottom: 1px solid darkgray;
+    /* justify-content: space-between; */
+}
+
+#auth-form {
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    width: 50%;
+    padding: 3%;
+}
+
+#password-input:invalid {
+    border: 1px solid red;
+}

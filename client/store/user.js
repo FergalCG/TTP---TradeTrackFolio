@@ -1,46 +1,39 @@
 import axios from 'axios'
 
-    // ACTION TYPES
 
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 
-
-    // INITIAL STATE
-
+    // Initial state
 const defaultUser = {}
 
-
-    // ACTION CREATORS
 
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 
 
-    // THUNK CREATORS
-
-
-export const me = () => async dispatch => {
+export const getMe = () => async dispatch => {
     try {
-        const res = await axios.get('/auth/me')
-        dispatch(getUser(res.data))
-    } catch (err) {
-        console.error(err)
+        const {data} = await axios.get('/auth/me')
+        dispatch(getUser(data || defaultUser))
+    } catch (authError) {
+        return dispatch(getUser({error: authError}))
     }
 }
 
-export const auth = (email, password, method) => async dispatch => {
+export const auth = (username, email, password, method) => async dispatch => {
+    const payload = method === 'register' ? {username, email, password} : {email, password}
     try {
-        const {data} = await axios.post(`/auth/${method}`, {email, password})
+        const {data} = await axios.post(`/auth/${method}`, payload)
         dispatch(getUser(data))
     } catch (authError) {
         return dispatch(getUser({error: authError}))
     }
 }
 
-export const logout = () => async dispatch => {
+export const signout = () => async dispatch => {
     try {
-        await axios.post('/auth/logout')
+        await axios.post('/auth/signout')
         dispatch(removeUser())
     } catch (err) {
         console.error(err)
@@ -48,14 +41,13 @@ export const logout = () => async dispatch => {
 }
 
 
-    // REDUCER
-
+    //Reducer
 export default function(state = defaultUser, action) {
     switch (action.type) {
         case GET_USER:
-            return action.user
+            return action.user.id ? action.user : state
         case REMOVE_USER:
-            return defaultUser
+            return {}
         default:
             return state
     }

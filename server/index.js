@@ -26,17 +26,17 @@ passport.deserializeUser(async (id, done) => {
 })
 
 const createApp = () => {
-    // logging middleware
+    // logging
     app.use(morgan('dev'))
 
-    // body parsing middleware
+    // body parsing
     app.use(express.json())
     app.use(express.urlencoded({extended: true}))
 
-    // compression middleware
+    // compression
     app.use(compression())
 
-    // session middleware using passport
+    // sessions using passport
     app.use(
         session({
             secret: process.env.SESSION_SECRET || 'Super Secret!',
@@ -49,13 +49,13 @@ const createApp = () => {
     app.use(passport.session())
 
     // auth and api routes
-    // app.use('/auth', require('./auth'))
-    // app.use('/api', require('./api'))
+    app.use('/auth', require('./auth'))
+    app.use('/api', require('./api'))
 
 
     app.use(express.static(path.join(__dirname, '..', 'public')))
 
-    // any remaining requests with an extension (.js, .css, etc.) send 404
+    // any rother requests with an extension (.js, .css, etc.) sends a 404
     app.use((req, res, next) => {
         if (path.extname(req.path).length) {
             const err = new Error('Not found')

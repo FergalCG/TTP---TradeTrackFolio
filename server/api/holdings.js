@@ -14,3 +14,26 @@ router.get('/', async (req, res, next) => {
         next(error)
     }
 })
+
+router.put('/:ticker', async (req, res, next) => {
+    try {
+        await Holding.update(req.body, {
+            where: {
+                userId: req.user.id,
+                ticker: req.params.ticker
+            }
+        })
+        res.sendStatus(200)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.post('/', async (req, res, next) => {
+    try {
+        await Holding.create(req.body)
+        res.sendStatus(201)
+    } catch (error) {
+        next(error)
+    }
+})

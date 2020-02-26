@@ -32,7 +32,7 @@ class AuthForm extends Component {
     }
 
     render() {
-        const {name, displayName, error} = this.props
+        const {name, displayName} = this.props
         return (
             <div id="auth-form-container">
                 <h2>{displayName}</h2>
@@ -59,8 +59,6 @@ class AuthForm extends Component {
                         :
                             <p>Already have an account? <NavLink activeClassName='active' to="/signin">Sign In</NavLink></p>
                     }
-                    
-                    {error && error.response && <div> {error.response.data} </div>}
                 </form>
             </div>
 
@@ -71,14 +69,12 @@ class AuthForm extends Component {
 
 const mapSigninToProps = state => ({
     name: 'signin',
-    displayName: 'Sign In',
-    error: state.user.error
+    displayName: 'Sign In'
 })
 
 const mapRegisterToProps = state => ({
     name: 'register',
-    displayName: 'Register',
-    error: state.user.error
+    displayName: 'Register'
 })
 
 const mapAuthToProps = dispatch => ({

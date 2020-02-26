@@ -17,7 +17,7 @@ export const getHoldings = () => async dispatch => {
     try {
         const {data} = await axios.get(`/api/users/holdings`)
         let userHoldings = {totalValue: 0}
-        if(data) {
+        if(data.length) {
             data.forEach(holding => {
                 userHoldings[holding.ticker] = {quantity: holding.quantity}
             })

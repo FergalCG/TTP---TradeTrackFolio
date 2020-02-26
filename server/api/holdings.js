@@ -1,9 +1,8 @@
 const router = require('express').Router()
-const Holding = require('../db/models')
+const {Holding} = require('../db/models')
 module.exports = router
 
-router.get('/holdings', async (req, res, next) => {
-    console.log(req.user)
+router.get('/', async (req, res, next) => {
     try {
         const holdings = await Holding.findAll({
             where: {

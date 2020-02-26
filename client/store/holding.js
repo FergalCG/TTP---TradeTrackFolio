@@ -13,10 +13,10 @@ const defaultHoldings = {
 const setHoldings = holdings => ({type: SET_HOLDINGS, holdings})
 
 
-export const getHoldings = userId => async dispatch => {
+export const getHoldings = () => async dispatch => {
     try {
-        const {data} = await axios.get(`/api/users/${userId}/holdings`)
-        let userHoldings = {totalValue = 0}
+        const {data} = await axios.get(`/api/users/holdings`)
+        let userHoldings = {totalValue: 0}
         if(data) {
             data.forEach(holding => {
                 userHoldings[holding.ticker] = {quantity: holding.quantity}
@@ -29,9 +29,9 @@ export const getHoldings = userId => async dispatch => {
     }
 }
 
-export const dispatchAddHolding = (userId, newHolding, userHoldings) => async dispatch => {
+export const dispatchAddHolding = (newHolding, userHoldings) => async dispatch => {
     try {
-        await axios.post(`/api/users/${userId}/holdings`, newHolding)
+        await axios.post(`/api/users/holdings`, newHolding)
         userHoldings[newHolding.ticker] = {quantity: newHolding.quantity}
         getChangeAndTotalValue(userHoldings)
         dispatch(setHoldings(userHoldings))
@@ -40,9 +40,9 @@ export const dispatchAddHolding = (userId, newHolding, userHoldings) => async di
     }
 }
 
-export const dispatchUpdateHolding = (userId, ticker, quantity, userHoldings) => async dispatch => {
+export const dispatchUpdateHolding = (ticker, quantity, userHoldings) => async dispatch => {
     try {
-        await axios.put(`/api/users/${userId}/holdings/${ticker}`, {quantity})
+        await axios.put(`/api/users/holdings/${ticker}`, {quantity})
         userHoldings[ticker].quantity = quantity
         getChangeAndTotalValue(userHoldings)
         dispatch(setHoldings(userHoldings))
@@ -68,9 +68,6 @@ const getChangeAndTotalValue = async userHoldings => {
         console.error('Error clculating total value of stocks!', error)
     }
 }
-
-
-// http://sandbox.iexapis.com/stable/stock/market/batch?symbols=${queryString}&types=quote&filter=latestPrice,change&token=${process.env.IEX_DEV_PUBLIC_KEY}
 
 
     //Reducer

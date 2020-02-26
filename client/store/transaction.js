@@ -14,7 +14,7 @@ const addTransaction = transaction => ({type: ADD_TRANSACTION, transaction})
 
 export const getTransactions = (userId) => async dispatch => {
     try {
-        const {data} = await axios.get(`/api/users/${userId}/transactions`)
+        const {data} = await axios.get(`/api/users/transactions`)
         dispatch(setTransactions(data || defaultTransactions))
     } catch (error) {
         dispatch(setTransactions({error}))
@@ -23,7 +23,7 @@ export const getTransactions = (userId) => async dispatch => {
 
 export const dispatchAddTransaction = (userId, transaction) => async dispatch => {
     try {
-        const {data} = await axios.post(`/api/users/${userId}/transactions`, transaction)
+        const {data} = await axios.post(`/api/users/transactions`, transaction)
         dispatch(addTransaction(data))
     } catch (error) {
         dispatch(addTransaction({error}))

@@ -24,10 +24,11 @@ export const getTransactions = () => async dispatch => {
 
 export const dispatchAddTransaction = transaction => async dispatch => {
     try {
-        const {data} = await axios.get(`/api/stocks/${transaction.ticker}`),
-            ticker = transaction.ticker,
+        const {data} = await axios.get(`/api/stocks/${transaction.ticker}`)
+        if(data === 404) return 404
+        const ticker = transaction.ticker,
             price = data[ticker].quote.latestPrice,
-            tickerValue = Math.round(price * 100) * transaction.quantity
+            tickerValue = price * 100 * transaction.quantity
         const status = await axios.put('/api/users', {cost: tickerValue})
         if(status.data.status === 400) {
             return 400

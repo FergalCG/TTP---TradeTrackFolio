@@ -31,7 +31,8 @@ router.put('/:ticker', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        await Holding.create(req.body)
+        const newHolding = {...req.body, userId: req.user.id}
+        await Holding.create(newHolding)
         res.sendStatus(201)
     } catch (error) {
         next(error)

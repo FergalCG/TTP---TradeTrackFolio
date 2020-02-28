@@ -7,11 +7,11 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     <div id='navbar'>
         <h1>Trade Track Folio</h1>
         <nav id='navlinks'>
-                <NavLink activeClassName='active' to="/transactions">Transactions</NavLink>
-                <NavLink activeClassName='active' to="/portfolio">Portfolio</NavLink>
-                <a href="/signin" onClick={handleClick}>
-                    Sign Out
-                </a>
+            <NavLink activeClassName='active' to="/portfolio">Portfolio</NavLink>
+            <NavLink activeClassName='active' to="/transactions">Transactions</NavLink>
+            <a href="/signin" onClick={handleClick}>
+                Sign Out
+            </a>
         </nav>
     </div>
 )

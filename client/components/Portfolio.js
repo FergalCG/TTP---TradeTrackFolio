@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getHoldings, dispatchAddHolding, dispatchUpdateHolding} from '../store'
+import {getHoldings, dispatchAddHolding, dispatchUpdateHolding, dispatchAddTransaction} from '../store'
 import formatMoney from './FormatMoney'
 
 
@@ -16,13 +16,20 @@ class Portfolio extends Component {
         this.props.getHoldings()
     }
 
-    handleSubmit = evt => {
+    handleSubmit = async evt => {
         evt.preventDefault()
-        const ticker = this.state.ticker
-        if(this.props.holdings[ticker]) {
-            this.props.dispatchUpdateHolding(ticker, this.state.quantity, this.props.holdings)
+        const ticker = this.state.ticker.toUpperCase(),
+            holdings = this.props.holdings,
+            newQuantity = Number(this.state.quantity)
+        const status = await this.props.dispatchAddTransaction({ticker, quantity: newQuantity})
+        if(status === 400) {
+            return alert('Balance too low to complete transaction!')
+        }    
+        if(holdings[ticker]) {
+            const updateQuantity = newQuantity + holdings[ticker].quantity
+            this.props.dispatchUpdateHolding(ticker, updateQuantity , holdings)
         }else {
-            this.props.dispatchAddHolding(this.state, userHoldings)
+            this.props.dispatchAddHolding({ticker, quantity: newQuantity}, holdings)
         }
     }
 
@@ -39,8 +46,8 @@ class Portfolio extends Component {
             
         return (
             <div>
-                <h1>Portfolio &#40;{formatMoney.format(totalValue/100+balance)}&#41;</h1>
-                <h3>Cash - {formatMoney.format(balance)}</h3>
+                <h1>Portfolio &#40;{formatMoney.format(totalValue/100+balance/100)}&#41;</h1>
+                <h3>Cash - {formatMoney.format(balance/100)}</h3>
 
                 <form onSubmit={this.handleSubmit}>
                     <div>
@@ -73,6 +80,9 @@ const mapDispatchToProps = dispatch => ({
     },
     dispatchUpdateHolding: (ticker, quantity, userHoldings) => {
         dispatch(dispatchUpdateHolding(ticker, quantity, userHoldings))
+    },
+    dispatchAddTransaction: transaction => {
+        return dispatch(dispatchAddTransaction(transaction))
     }
 })
 

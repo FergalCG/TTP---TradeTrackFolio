@@ -21,11 +21,11 @@ export const getHoldings = () => async dispatch => {
             data.forEach(holding => {
                 userHoldings[holding.ticker] = {quantity: holding.quantity}
             })
-            getChangeAndTotalValue(userHoldings)
+            await getChangeAndTotalValue(userHoldings)
         }
         dispatch(setHoldings(userHoldings))
     } catch (error) {
-        dispatch(setHoldings({error}))
+        console.error(error)
     }
 }
 
@@ -33,10 +33,10 @@ export const dispatchAddHolding = (newHolding, userHoldings) => async dispatch =
     try {
         await axios.post(`/api/users/holdings`, newHolding)
         userHoldings[newHolding.ticker] = {quantity: newHolding.quantity}
-        getChangeAndTotalValue(userHoldings)
+        await getChangeAndTotalValue(userHoldings)
         dispatch(setHoldings(userHoldings))
     } catch (error) {
-        dispatch(setHoldings({error}))
+        console.error(error)
     }
 }
 
@@ -44,26 +44,27 @@ export const dispatchUpdateHolding = (ticker, quantity, userHoldings) => async d
     try {
         await axios.put(`/api/users/holdings/${ticker}`, {quantity})
         userHoldings[ticker].quantity = quantity
-        getChangeAndTotalValue(userHoldings)
+        await getChangeAndTotalValue(userHoldings)
         dispatch(setHoldings(userHoldings))
     } catch (error) {
-        dispatch(setHoldings({error}))
+        console.error(error)
     }
 }
 
 const getChangeAndTotalValue = async userHoldings => {
     try {
-        const tickerArray = userHoldings.keys(),
+        const tickerArray = Object.keys(userHoldings).filter(key => key !== 'totalValue'),
             queryString = tickerArray.join(',')
         let totalValue = 0
         const {data} = await axios.get(`/api/stocks/${queryString}`)
         tickerArray.forEach(ticker => {
-            const tickerValue = data[ticker].quote.latestPrice * 100 * userHoldings[ticker].quantity
+            const tickerValue = Math.round(data[ticker].quote.latestPrice * 100) * userHoldings[ticker].quantity
             userHoldings[ticker].change = data[ticker].quote.change
             userHoldings[ticker].value = tickerValue
             totalValue += tickerValue
         })
         userHoldings.totalValue = totalValue
+        return userHoldings
     } catch (error) {
         console.error('Error clculating total value of stocks!', error)
     }

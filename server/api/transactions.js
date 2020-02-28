@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const Transactions = require('../db/models')
+const {Transaction} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -17,8 +17,9 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        await Transaction.create(req.body)
-        res.sendStatus(201)
+        const transaction = {...req.body, userId: req.user.id},
+            newTransaction = await Transaction.create(transaction)
+        res.status(201).json(newTransaction.dataValues)
     } catch (error) {
         next(error)
     }

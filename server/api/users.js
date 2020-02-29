@@ -3,7 +3,6 @@ const {User} = require('../db/models')
 module.exports = router
 
 router.put('/', async (req, res, next) => {
-    console.log(req.user.balance, '------', req.body.cost)
     try {
         if(req.user.balance - req.body.cost < 0) {
             res.json({status: 400})

@@ -1,4 +1,4 @@
-# Welcome to TradeTrackFolio, my 2020 NYC Tech Talent Pipeline Stage 2 Assessment!
+### Welcome to TradeTrackFolio, my 2020 NYC Tech Talent Pipeline Stage 2 Assessment!
 
 To Use this codebase fully, there are A few steps to setting up:
 1. "npm i" while in the workspace directory.

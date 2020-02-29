@@ -21,6 +21,7 @@ class Portfolio extends Component {
         const ticker = this.state.ticker.toUpperCase(),
             holdings = this.props.holdings,
             newQuantity = Number(this.state.quantity)
+        if(!ticker.length) return alert('Must provide a stock ticker!')
         if(!newQuantity) return alert('Provide a quantity for your purchase!')
         const status = await this.props.dispatchAddTransaction({ticker, quantity: newQuantity})
         if(status === 400) return alert('Balance too low to complete transaction!')

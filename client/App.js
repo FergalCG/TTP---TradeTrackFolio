@@ -4,8 +4,9 @@ import Routes from './routes'
 import { connect } from 'react-redux'
 
 const App = ({isLoggedIn}) => {
+    const id = isLoggedIn ? '' : 'inner-app'
     return (
-        <div>
+        <div id={id}>
             {
                 isLoggedIn ? 
                     <Navbar />

@@ -35,8 +35,8 @@ class AuthForm extends Component {
         const {name, displayName} = this.props
         return (
             <div id="auth-form-container">
-                <h2>{displayName}</h2>
                 <form id="auth-form" onSubmit={this.handleSubmit} name={name}>
+                    <h2>{displayName}</h2>
                     {
                         name === 'register' && (
                             <div>

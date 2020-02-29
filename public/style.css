@@ -1,6 +1,7 @@
 html, body, #app {
     height: 100vh;
     margin: 0;
+    background-color: #F4E3B2;
 }
 
 nav {
@@ -45,6 +46,14 @@ form div {
     width: 80%;
 }
 
+#inner-app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
 #auth-form-container {
     width: 50%;
     height: 50%;
@@ -56,6 +65,7 @@ form div {
     border-bottom: 1px solid gray;
     justify-content: space-between;
     padding: 0 3rem;
+    background-color: #D3D5D7;
 }
 
 #auth-form-container {
@@ -64,7 +74,6 @@ form div {
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 65vh;
 }
 
 #auth-form {
@@ -77,6 +86,7 @@ form div {
     box-shadow: 2px 2px 0px gray;
     padding: 3rem;
     margin: auto;
+    background-color: #D3D5D7;
 }
 
 #auth-form div {
@@ -128,6 +138,7 @@ form div {
     padding: 0rem 3rem 1rem 3rem;
     margin-left: 3rem;
     text-align: center;
+    background-color: #D3D5D7;
 }
 
 #portfolio-form-container {
@@ -155,6 +166,7 @@ form div {
     width: 40%;
     height: 2rem;
     margin-top: 1rem;
+    background-color: #769FB6;
 }
 
 #transaction-table-container {

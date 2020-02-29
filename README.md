@@ -1,6 +1,7 @@
 ### Welcome to TradeTrackFolio, my 2020 NYC Tech Talent Pipeline Stage 2 Assessment!
 
 To Use this codebase fully, there are A few steps to setting up:
+
 1. "npm i" while in the workspace directory.
 2. Head over to https://iexcloud.io/ and sign up to get your api keys.
 3. Make a file in the root of the directory called secrets.js and type process.env.IEX_DEV_PUBLIC_KEY = <your-test-public-key-here>
@@ -8,4 +9,4 @@ To Use this codebase fully, there are A few steps to setting up:
 5.Run in development mode by typing "npm run dev" while in the root of the workspace.
   
 
-Deployed Link: https://tradetrackfoliofcg.appspot.com/
+### Deployed Link: https://tradetrackfoliofcg.appspot.com/
